@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Widget</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .weather-widget {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+      width: 300px;
+    }
+    .weather-widget h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .weather-widget p {
+      margin: 5px 0;
+      font-size: 18px;
+    }
+    .weather-widget .temp {
+      font-size: 32px;
+      font-weight: bold;
+    }
+    .weather-widget img {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="weather-widget">
+    <h2>Weather</h2>
+    <p id="location">Loading...</p>
+    <p class="temp" id="temperature">--°C</p>
+    <p id="description">--</p>
+    <img id="icon" src="" alt="Weather Icon" style="display: none;">
+  </div>
+
+  <script>
+    const apiKey = 'YOUR_API_KEY'; // Replace with your OpenWeatherMap API key
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=${apiKey}`;
+
+    async function fetchWeather() {
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        const location = data.name;
+        const temperature = Math.round(data.main.temp);
+        const description = data.weather[0].description;
+        const icon = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+
+        document.getElementById('location').textContent = location;
+        document.getElementById('temperature').textContent = `${temperature}°C`;
+        document.getElementById('description').textContent = description;
+        document.getElementById('icon').src = icon;
+        document.getElementById('icon').style.display = 'block';
+      } catch (error) {
+        document.getElementById('location').textContent = 'Unable to fetch weather data.';
+      }
+    }
+
+    fetchWeather();
+  </script>
+</body>
+</html>

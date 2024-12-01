@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .todo-container {
+      max-width: 400px;
+      margin: auto;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    li.completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    button {
+      background-color: #ff6666;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff3333;
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <h1>To-Do List</h1>
+    <input type="text" id="todoInput" placeholder="Add a new task" />
+    <button onclick="addTodo()">Add</button>
+    <ul id="todoList"></ul>
+  </div>
+
+  <script>
+    function addTodo() {
+      const todoInput = document.getElementById("todoInput");
+      const todoList = document.getElementById("todoList");
+
+      if (todoInput.value.trim() === "") {
+        alert("Please enter a task.");
+        return;
+      }
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        ${todoInput.value}
+        <button onclick="removeTodo(this)">Remove</button>
+      `;
+      li.addEventListener("click", () => {
+        li.classList.toggle("completed");
+      });
+
+      todoList.appendChild(li);
+      todoInput.value = "";
+    }
+
+    function removeTodo(button) {
+      const li = button.parentElement;
+      li.remove();
+    }
+  </script>
+</body>
+</html>
